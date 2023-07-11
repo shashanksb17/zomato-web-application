@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav {
+    background-color: #207dc9;
+    padding: 10px;
+  }
+  
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav ul li {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  nav ul li a {
+    color: #FFF;
+    text-decoration: none;
+    padding: 5px 10px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .container form {
+    margin-bottom: 20px;
+  }
+  
+  .container form label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .container form input[type="text"],
+  .container form input[type="number"],
+  .container form select {
+    width: 100%;
+    padding: 5px;
+  }
+  
+  .container form button[type="submit"] {
+    display: block;
+    margin-top: 10px;
+    padding: 5px 10px;
+  }
+  
+  #menu-list,
+  #order-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #menu-list li,
+  #order-list li {
+    margin-bottom: 10px;
+  }
+  

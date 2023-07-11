@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zomato Chronicles: The Great Food Fiasco</title>
+  <link rel="stylesheet" type="text/css" href="./styles/styles.css">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="order.html">Order</a></li>
+      <li><a href="order-status.html">Order Status</a></li>
+    </ul>
+  </nav>
+
+  <h1>Order Review</h1>
+
+  <div class="container">
+    <ul id="order-list">
+      <!-- Orders will be dynamically added here -->
+    </ul>
+  </div>
+
+  <script>
+  // Function to send HTTP GET requests to the backend
+async function getData(url) {
+  const response = await fetch(url);
+  return await response.json();
+}
+
+// Function to display the orders dynamically
+function displayOrders(orders) {
+  const orderList = document.getElementById('order-list');
+  orderList.innerHTML = ''; // Clear the existing list
+
+  if (orders.length === 0) {
+    const listItem = document.createElement('li');
+    listItem.textContent = 'No orders available';
+    orderList.appendChild(listItem);
+  } else {
+    orders.forEach(order => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `Order ID: ${order.orderId} - Status: ${order.status}`;
+      orderList.appendChild(listItem);
+    });
+  }
+}
+
+// Load initial order data
+window.addEventListener('DOMContentLoaded', async function() {
+  try {
+    const orders = await getData('http://localhost:5000/order');
+    console.log(orders); // Log the orders data from the backend
+    // Display the orders dynamically
+    displayOrders(orders);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+          <title>Zomato Chronicles: The Great Food Fiasco</title>
+          <link rel="stylesheet" type="text/css" href="./styles/styles.css">
+        </head>
+        <body>
+          <nav>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="menu.html">Menu</a></li>
+              <li><a href="order.html">Order</a></li>
+              <li><a href="order-review.html">Order Review</a></li>
+            </ul>
+          </nav>
+        
+          <h1>Order Status Update</h1>
+        
+          <div class="container">
+            <form id="update-order-form">
+              <label for="order-id">Order ID:</label>
+              <input type="number" id="order-id" required>
+              <label for="new-status">New Status:</label>
+              <select id="new-status" required>
+                <option value="preparing">Preparing</option>
+                <option value="ready">Ready for Pickup</option>
+                <option value="delivered">Delivered</option>
+              </select>
+              <button type="submit">Update Status</button>
+            </form>
+          </div>
+        
+          <script >
+          // Function to send HTTP PUT requests to the backend
+            async function putData(url, data) {
+              const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+              });
+              return await response.json();
+            }
+            
+            // Handle Update Order Form Submission
+            const updateOrderForm = document.getElementById('update-order-form');
+            updateOrderForm.addEventListener('submit', async function(e) {
+              e.preventDefault();
+              const orderId = parseInt(document.getElementById('order-id').value);
+              const newStatus = document.getElementById('new-status').value;
+            
+              const data = {
+                orderId: orderId,
+                newStatus: newStatus
+              };
+            
+              try {
+                const response = await putData(`http://localhost:5000/order-status`, data);
+                console.log(response); // Log the response from the backend
+                // Clear the form fields
+                updateOrderForm.reset();
+                // Display a success message to the user
+                alert('Order status updated successfully!')
+                // showMessage('Order status updated successfully!', 'success');
+              } catch (error) {
+                console.error('Error:', error);
+                // Display an error message to the user
+                // showMessage('Failed to update the order status. Please try again.', 'error');
+                alert('Failed to update the order status. Please try again.')
+              }
+            });
+            
+            // Function to display a message to the user
+            function showMessage(message, type) {
+              const messageElement = document.getElementById('message');
+              messageElement.textContent = message;
+              messageElement.classList.remove('success', 'error');
+              messageElement.classList.add(type);
+              messageElement.style.display = 'block';
+              // Hide the message after 3 seconds
+              setTimeout(function() {
+                messageElement.style.display = 'none';
+              }, 3000);
+            }
+            
+          </script>
+        </body>
+        </html>
+        
+

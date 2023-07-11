@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zomato Chronicles: The Great Food Fiasco</title>
+  <link rel="stylesheet" type="text/css" href="./styles/styles.css">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="order-status.html">Order Status</a></li>
+      <li><a href="order-review.html">Order Review</a></li>
+    </ul>
+  </nav>
+
+  <h1>Order Management</h1>
+
+  <div class="container">
+    <form id="take-order-form">
+      <label for="customer-name">Customer Name:</label>
+      <input type="text" id="customer-name" required>
+      <label for="dish-id">Dish ID:</label>
+      <input type="number" id="dish-id" required>
+      <button type="submit">Take Order</button>
+    </form>
+  </div>
+
+  <script>
+// Function to send HTTP POST requests to the backend
+async function postData(url, data) {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+  return await response.json();
+}
+
+// Handle Take Order Form Submission
+const takeOrderForm = document.getElementById('take-order-form');
+takeOrderForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const customerName = document.getElementById('customer-name').value;
+  const dishId = parseInt(document.getElementById('dish-id').value);
+
+  const data = {
+    customerName: customerName,
+    dishId: dishId
+  };
+
+  try {
+    const response = await postData('http://localhost:5000/order', data);
+    console.log(response); // Log the response from the backend
+    // Clear the form fields
+    takeOrderForm.reset();
+    // Display a success message to the user
+    alert("Order placed successfully")
+    // showMessage('Order placed successfully!', 'success');
+  } catch (error) {
+    console.error('Error:', error);
+    // Display an error message to the user
+    showMessage('Failed to place the order. Please try again.', 'error');
+  }
+});
+
+// Function to display a message to the user
+function showMessage(message, type) {
+  const messageElement = document.getElementById('message');
+  messageElement.textContent = message;
+  messageElement.classList.remove('success', 'error');
+  messageElement.classList.add(type);
+  messageElement.style.display = 'block';
+  // Hide the message after 3 seconds
+  setTimeout(function() {
+    messageElement.style.display = 'none';
+  }, 3000);
+}
+
+  </script>
+</body>
+</html>
